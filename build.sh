@@ -11,6 +11,7 @@ native-image --shared  -H:Path=./build \
                        -H:CLibraryPath=./src/main/c/native \
                        -jar ./target/rocketmq-ons-cpp-full.jar \
                        -Dio.netty.noUnsafe=true \
+                       -DOPEN_DUAL_ABI=false \
                        --report-unsupported-elements-at-runtime \
                        --allow-incomplete-classpath \
                        -H:+ReportExceptionStackTraces \

@@ -7,6 +7,17 @@ project(${PROJECT_NAME} VERSION ${CLIENT_VERSION}
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
+if (CONAN_LIBCXX STREQUAL "libstdc++11")
+    message("Using -D_GLIBCXX_USE_CXX11_ABI=1")
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+elseif (CONAN_LIBCXX STREQUAL "libstdc++")
+    message("Using -D_GLIBCXX_USE_CXX11_ABI=0")
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+else ()
+    message("As Default -D_GLIBCXX_USE_CXX11_ABI=0, not set.")
+    #add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+endif ()
+
 include(CTest)
 
 option(BUILD_TESTS "Build tests" ON)

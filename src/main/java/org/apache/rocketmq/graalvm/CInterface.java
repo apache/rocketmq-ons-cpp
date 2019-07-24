@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +61,14 @@ public class CInterface {
              * locates the file in our project structure.
              */
             return Collections.singletonList("<rocketmq/rocketmq.h>");
+        }
+
+        public List<String> getMacroDefinitions() {
+            if ("true".equalsIgnoreCase(System.getProperty("OPEN_DUAL_ABI"))) {
+                System.out.println("-D_GLIBCXX_USE_CXX11_ABI=1");
+                return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=1");
+            }
+            return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=0");
         }
     }
 
