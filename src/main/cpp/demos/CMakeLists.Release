@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
-project(onsclient4cpp_demo VERSION 1.0
+set(LIBRARY_NAME_DEMO onsclient4cpp)
+set(PROJECT_NAME_DEMO rocketmq-ons-cpp-demo)
+project(${PROJECT_NAME_DEMO} VERSION 1.0
         LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 11)
 include_directories(../include)
@@ -13,7 +15,7 @@ if (${ROCKETMQ_CLIENT_CORE-NOTFOUNT})
 endif ()
 
 find_library(ONS_CLIENT
-        NAMES onsclient4cpp
+        NAMES ${LIBRARY_NAME_DEMO}
         HINTS ../lib)
 
 if (${ONS_CLIENT-NOTFOUNT})

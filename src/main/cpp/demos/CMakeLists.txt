@@ -1,6 +1,6 @@
 macro(add_demo name source_file)
     add_executable(${name} ${source_file})
-    target_link_libraries(${name} pthread ${CMAKE_PROJECT_NAME})
+    target_link_libraries(${name} pthread ${LIBRARY_NAME})
     set_target_properties(${name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/demos)
 endmacro()
 
