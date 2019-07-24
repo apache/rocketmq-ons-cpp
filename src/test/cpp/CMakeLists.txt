@@ -1,0 +1,21 @@
+include_directories(${CMAKE_SOURCE_DIR}/src/test/cpp
+                    ${CMAKE_SOURCE_DIR}/src/main/cpp/sdk)
+
+macro(add_gtest test_name test_source)
+    add_executable(${test_name} ${test_source} TestMain.cpp)
+    target_link_libraries(${test_name} gtest ${LIBRARY_NAME})
+    add_test(NAME ${test_name} COMMAND ${test_name})
+    set_target_properties(${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/tests)
+endmacro()
+
+add_gtest(example_test ExampleTest.cpp)
+add_gtest(graal_thread_test GraalThreadTest.cpp)
+add_gtest(api_test ApiTest.cpp)
+add_gtest(logger_test LoggerTest.cpp)
+add_gtest(layout_test LayoutTest.cpp)
+add_gtest(producer_test ProducerTest.cpp)
+#add_gtest(property_test PropertyTest.cpp)
+add_gtest(trasaction_test TransactionTest.cpp)
+add_gtest(order_producer_test OrderProducerTest.cpp)
+add_gtest(message_test MessageTest.cpp)
+add_gtest(consumer_test ConsumerTest.cpp)
