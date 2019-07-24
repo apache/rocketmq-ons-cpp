@@ -52,7 +52,11 @@ public class CInterface {
     static class CPropertiesDirectives implements CContext.Directives {
 
         public List<String> getOptions() {
-            return Arrays.asList("-I/usr/local/include");
+            if ("true".equalsIgnoreCase(System.getProperty("OPEN_DUAL_ABI"))) {
+                System.out.println("-D_GLIBCXX_USE_CXX11_ABI=1 -I/usr/local/include");
+                return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=1 -I/usr/local/include");
+            }
+            return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=0 -I/usr/local/include");
         }
 
         public List<String> getHeaderFiles() {
@@ -61,14 +65,6 @@ public class CInterface {
              * locates the file in our project structure.
              */
             return Collections.singletonList("<rocketmq/rocketmq.h>");
-        }
-
-        public List<String> getMacroDefinitions() {
-            if ("true".equalsIgnoreCase(System.getProperty("OPEN_DUAL_ABI"))) {
-                System.out.println("-D_GLIBCXX_USE_CXX11_ABI=1");
-                return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=1");
-            }
-            return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=0");
         }
     }
 
