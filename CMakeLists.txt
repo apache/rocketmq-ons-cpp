@@ -9,9 +9,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 include(CTest)
 
-option(BUILD_TESTS "Build tests" OFF)
+option(BUILD_TESTS "Build tests" ON)
 option(BUILD_BENCHMARK "Build benchmark tests" OFF)
-option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_DEMOS "Build demos" ON)
 
 include_directories(graalvm_artifacts
