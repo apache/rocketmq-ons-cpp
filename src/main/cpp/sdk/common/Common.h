@@ -1,0 +1,9 @@
+#ifndef __SDK_COMMON_H
+#define __SDK_COMMON_H
+
+
+#define ONS_SEND_RESULT_MSG_ID_LEN_MAX 64
+#define ONS_SEND_RESULT_ERR_MSG_LEN_MAX 1024
+
+
+#endif //__SDK_COMMON_H
