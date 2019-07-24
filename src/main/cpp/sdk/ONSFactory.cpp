@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "rocketmq.h"
 #include "ONSFactory.h"
 #include "ProducerImpl.h"
@@ -171,6 +188,7 @@ namespace ons {
                 m_onsFactoryProperties.find(ConsumerId);
         return (it == m_onsFactoryProperties.end()) ? NULL_STRING : (*it).second.c_str();
     }
+
     const char *ONSFactoryProperty::getGroupId() const {
         map<string, string>::const_iterator it =
                 m_onsFactoryProperties.find(GroupId);
@@ -291,12 +309,12 @@ namespace ons {
                 m_onsFactoryProperties.find(ConsumerInstanceName);
         return (it == m_onsFactoryProperties.end()) ? NULL_STRING : (*it).second.c_str();
     }
+
     const char *ONSFactoryProperty::getInstanceId() const {
         map<string, string>::const_iterator it =
                 m_onsFactoryProperties.find(InstanceId);
         return (it == m_onsFactoryProperties.end()) ? NULL_STRING : (*it).second.c_str();
     }
-
 
     class ONSFactoryInstance : public ONSFactoryAPI {
     public:
@@ -341,13 +359,13 @@ namespace ons {
 using namespace ons;
 
 int validateProperty(ONSFactoryProperty factoryProperty) throw(ons::ONSClientException) {
-    if (NULL_STRING == factoryProperty.getAccessKey()){
+    if (NULL_STRING == factoryProperty.getAccessKey()) {
         throw ONSClientException(
                 FAQ::errorMessage("AccessKey must be set, please set it.",
                                   FAQ::CLIENT_CHECK_MSG_EXCEPTION),
                 -1);
     }
-    if (NULL_STRING == factoryProperty.getSecretKey()){
+    if (NULL_STRING == factoryProperty.getSecretKey()) {
         throw ONSClientException(
                 FAQ::errorMessage("SecretKey must be set, please set it.",
                                   FAQ::CLIENT_CHECK_MSG_EXCEPTION),
@@ -384,11 +402,11 @@ ONSFactoryInstance::~ONSFactoryInstance() {
 }
 
 Producer *ONSFactoryInstance::createProducer(ons::ONSFactoryProperty factoryProperty) throw(ONSClientException) {
-    if (INNER == factoryProperty.getOnsChannel()){
+    if (INNER == factoryProperty.getOnsChannel()) {
         factoryProperty.setOnsTraceSwitch(false);
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR,"LocalDefault");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR, "LocalDefault");
     }
     validateProperty(factoryProperty);
     ProducerImpl *producerImpl = new ProducerImpl(factoryProperty);
@@ -398,11 +416,11 @@ Producer *ONSFactoryInstance::createProducer(ons::ONSFactoryProperty factoryProp
 
 OrderProducer *ONSFactoryInstance::createOrderProducer(ons::ONSFactoryProperty factoryProperty) throw(
 ONSClientException) {
-    if (INNER == factoryProperty.getOnsChannel()){
+    if (INNER == factoryProperty.getOnsChannel()) {
         factoryProperty.setOnsTraceSwitch(false);
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR,"LocalDefault");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR, "LocalDefault");
     }
     validateProperty(factoryProperty);
     OrderProducerImpl *orderProducerImpl = new OrderProducerImpl(factoryProperty);
@@ -413,11 +431,11 @@ ONSClientException) {
 
 OrderConsumer *ONSFactoryInstance::createOrderConsumer(ons::ONSFactoryProperty factoryProperty) throw(
 ONSClientException) {
-    if (INNER == factoryProperty.getOnsChannel()){
+    if (INNER == factoryProperty.getOnsChannel()) {
         factoryProperty.setOnsTraceSwitch(false);
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR,"LocalDefault");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR, "LocalDefault");
     }
     validateProperty(factoryProperty);
     OrderConsumerImpl *consumer = new OrderConsumerImpl(factoryProperty);
@@ -428,11 +446,11 @@ ONSClientException) {
 TransactionProducer *ONSFactoryInstance::createTransactionProducer(
         ons::ONSFactoryProperty factoryProperty,
         ons::LocalTransactionChecker *checker) throw(ons::ONSClientException) {
-    if (INNER == factoryProperty.getOnsChannel()){
+    if (INNER == factoryProperty.getOnsChannel()) {
         factoryProperty.setOnsTraceSwitch(false);
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR,"LocalDefault");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR, "LocalDefault");
     }
     validateProperty(factoryProperty);
     if (checker == NULL) {
@@ -452,11 +470,11 @@ ONSFactoryInstance::createPullConsumer(ons::ONSFactoryProperty factoryProperty) 
 
 PushConsumer *
 ONSFactoryInstance::createPushConsumer(ons::ONSFactoryProperty factoryProperty) throw(ons::ONSClientException) {
-    if (INNER == factoryProperty.getOnsChannel()){
+    if (INNER == factoryProperty.getOnsChannel()) {
         factoryProperty.setOnsTraceSwitch(false);
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey,"DefaultKey");
-        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR,"LocalDefault");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::AccessKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::SecretKey, "DefaultKey");
+        factoryProperty.setFactoryProperty(ONSFactoryProperty::NAMESRV_ADDR, "LocalDefault");
     }
     validateProperty(factoryProperty);
     ConsumerImpl *consumer = new ConsumerImpl(factoryProperty);

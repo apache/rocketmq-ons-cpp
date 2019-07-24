@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #ifndef MQ_UTILALL_H
 #define MQ_UTILALL_H
 
@@ -39,8 +56,8 @@ namespace ons {
 
         static std::string to_string(const std::map<std::string, std::string> &prop);
 
-        static graal_isolate_t* get_isolate() {
-            static graal_isolate_t* singleton = nullptr;
+        static graal_isolate_t *get_isolate() {
+            static graal_isolate_t *singleton = nullptr;
             if (nullptr == singleton) {
                 if (graal_create_isolate(nullptr, &singleton, nullptr)) {
                     spdlog::error("Failed to create graal isolate");
@@ -103,7 +120,6 @@ namespace ons {
         }
     };
 
-
     class MessageConverter {
     public:
         MessageConverter(message &m, const Message &msg) : m_(m), msg_(msg) {
@@ -138,7 +154,7 @@ namespace ons {
 
     class ThreadAttachment {
     public:
-        ThreadAttachment(graal_isolatethread_t **thread) throw (ons::ONSClientException) {
+        ThreadAttachment(graal_isolatethread_t **thread) throw(ons::ONSClientException) {
             std::stringstream ss;
             ss << std::this_thread::get_id();
 
@@ -182,7 +198,7 @@ namespace ons {
 
     class SendResultWrapper {
     public:
-        SendResultWrapper(send_result &sr) : sr_(sr){
+        SendResultWrapper(send_result &sr) : sr_(sr) {
             UtilAll::init_send_result(sr);
             sr_ = sr;
         }

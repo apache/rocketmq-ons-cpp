@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #ifndef __MESSAGE_H__
 #define __MESSAGE_H__
 
@@ -8,93 +25,121 @@
 
 namespace ons {
 
-class  SystemPropKey {
- public:
-  SystemPropKey() {}
-  ~SystemPropKey() {}
-  static const char* TAG;
-  static const char* KEY;
-  static const char* MSGID;
-  static const char* RECONSUMETIMES;
-  static const char* STARTDELIVERTIME;
-};
+    class SystemPropKey {
+    public:
+        SystemPropKey() {}
 
-class  ONSCLIENT_API Message {
- public:
-  Message();
-  Message(const std::string& topic, const std::string& tags, const std::string& byte_body);
-  Message(const char* topic, const char* tags, const char* byte_body);
-  Message(const char* topic, size_t topic_size, const char* tags, size_t tags_size, const char* body, size_t body_size);
-  Message(const char* topic, const char* tags, const char* keys, const char* body);
+        ~SystemPropKey() {}
 
-  virtual ~Message();
+        static const char *TAG;
+        static const char *KEY;
+        static const char *MSGID;
+        static const char *RECONSUMETIMES;
+        static const char *STARTDELIVERTIME;
+    };
 
-  Message(const Message& other);
-  Message& operator=(const Message& other);
+    class ONSCLIENT_API Message {
+    public:
+        Message();
 
-  // userProperties was used to save user specific parameters which doesn't
-  // belong to SystemPropKey
-  void putUserProperties(const char* key, const char* value);
-	const char* getUserProperties(const char* key) const;
-  void setUserProperties(std::map<std::string, std::string>& userProperty);
-  std::map<std::string, std::string> getUserProperties() const;
+        Message(const std::string &topic, const std::string &tags, const std::string &byte_body);
 
-  // systemProperties only save parameters defined in SystemPropKey, please do
-  // not add other parameters into systemProperties, else it was not saved.
-  void putSystemProperties(const char* key, const char* value);
-	const char* getSystemProperties(const char* key) const;
-  void setSystemProperties(std::map<std::string, std::string>& systemProperty);
-  std::map<std::string, std::string> getSystemProperties() const;
+        Message(const char *topic, const char *tags, const char *byte_body);
 
-	const char* getTopic() const;
-  void setTopic(const char* topic);
+        Message(const char *topic, size_t topic_size, const char *tags, size_t tags_size, const char *body,
+                size_t body_size);
 
-	const char* getTag() const;
-  void setTag(const char* tags);
+        Message(const char *topic, const char *tags, const char *keys, const char *body);
 
-	const char* getKey() const;
-  void setKey(const char* keys);
+        virtual ~Message();
 
-	const char* getMsgID() const;
-  void setMsgID(const char* msgId);
+        Message(const Message &other);
 
-  const long long getStartDeliverTime() const;
-  void setStartDeliverTime(long long level);
+        Message &operator=(const Message &other);
 
-  const char* getBody() const;
-  const char* getByteBody(int *len) const;
-  const std::string getMsgBody() const;
-  const size_t getBodySize() const;
-  void setMsgBody(const std::string msgbody);
-  void setBody(unsigned char* byte_msgbody, int len);
+        // userProperties was used to save user specific parameters which doesn't
+        // belong to SystemPropKey
+        void putUserProperties(const char *key, const char *value);
 
-  const int getReconsumeTimes() const;
-  void setReconsumeTimes(int reconsumeTimes);
+        const char *getUserProperties(const char *key) const;
 
-  long long getStoreTimestamp() const;
-  void setStoreTimestamp(long long storeTimestamp);
+        void setUserProperties(std::map<std::string, std::string> &userProperty);
 
-  const std::string toString() const;
+        std::map<std::string, std::string> getUserProperties() const;
 
-  const std::string toSystemString() const;
+        // systemProperties only save parameters defined in SystemPropKey, please do
+        // not add other parameters into systemProperties, else it was not saved.
+        void putSystemProperties(const char *key, const char *value);
 
-  const std::string toUserString() const;
+        const char *getSystemProperties(const char *key) const;
 
-  long long getQueueOffset() const;
-  void setQueueOffset(long long queueOffset);
- protected:
-  void Init(const std::string& topic, const std::string& tags,
-            const std::string& keys, const std::string& body);
+        void setSystemProperties(std::map<std::string, std::string> &systemProperty);
 
- private:
-  std::string topic;
-  std::string body;
-  size_t body_size;
-  long long m_storeTimestamp;
-  long long m_queueOffset;
-  std::map<std::string, std::string> systemProperties;
-  std::map<std::string, std::string> userProperties;
-};
+        std::map<std::string, std::string> getSystemProperties() const;
+
+        const char *getTopic() const;
+
+        void setTopic(const char *topic);
+
+        const char *getTag() const;
+
+        void setTag(const char *tags);
+
+        const char *getKey() const;
+
+        void setKey(const char *keys);
+
+        const char *getMsgID() const;
+
+        void setMsgID(const char *msgId);
+
+        const long long getStartDeliverTime() const;
+
+        void setStartDeliverTime(long long level);
+
+        const char *getBody() const;
+
+        const char *getByteBody(int *len) const;
+
+        const std::string getMsgBody() const;
+
+        const size_t getBodySize() const;
+
+        void setMsgBody(const std::string msgbody);
+
+        void setBody(unsigned char *byte_msgbody, int len);
+
+        const int getReconsumeTimes() const;
+
+        void setReconsumeTimes(int reconsumeTimes);
+
+        long long getStoreTimestamp() const;
+
+        void setStoreTimestamp(long long storeTimestamp);
+
+        const std::string toString() const;
+
+        const std::string toSystemString() const;
+
+        const std::string toUserString() const;
+
+        long long getQueueOffset() const;
+
+        void setQueueOffset(long long queueOffset);
+
+    protected:
+        void Init(const std::string &topic, const std::string &tags,
+                  const std::string &keys, const std::string &body);
+
+    private:
+        std::string topic;
+        std::string body;
+        size_t body_size;
+        long long m_storeTimestamp;
+        long long m_queueOffset;
+        std::map<std::string, std::string> systemProperties;
+        std::map<std::string, std::string> userProperties;
+    };
 
 }  //<!end namespace;
 #endif
