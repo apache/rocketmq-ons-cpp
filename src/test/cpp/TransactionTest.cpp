@@ -47,10 +47,10 @@ TEST_F(TransactionTest, test_setUp) {
 
 TEST_F(TransactionTest, testSendMessage_Normal) {
     ons::Message msg(
-            "lingchu_test_0",
+            "t_opensource_unit_test",
             "tagA",
             "ORDERID_100",
-            "hello MQ_lingchu"
+            "hello RocketMQ"
     );
     ons::SendResultONS sendResult = producer_->send(msg, executor_);
     ASSERT_TRUE(nullptr != sendResult.getMessageId());
@@ -58,10 +58,10 @@ TEST_F(TransactionTest, testSendMessage_Normal) {
 
 TEST_F(TransactionTest, testSendMessage_ExcutorBeingNull) {
     ons::Message msg(
-            "lingchu_test_0",
+            "t_opensource_unit_test",
             "tagA",
             "ORDERID_100",
-            "hello MQ_lingchu"
+            "hello RocketMQ"
     );
     EXPECT_THROW(ons::SendResultONS sendResult = producer_->send(msg, NULL), ons::ONSClientException);
 }
@@ -71,7 +71,7 @@ TEST_F(TransactionTest, testSendMessage_TopicBeingEmpty) {
             "",
             "tagA",
             "ORDERID_100",
-            "hello MQ_lingchu"
+            "hello RocketMQ"
     );
     EXPECT_THROW(ons::SendResultONS sendResult = producer_->send(msg, executor_), ons::ONSClientException);
 }
@@ -81,7 +81,7 @@ TEST_F(TransactionTest, testSendMessage_TopicNotExist) {
             "topic_not_use_test",
             "tagA",
             "ORDERID_100",
-            "hello MQ_lingchu"
+            "hello RocketMQ"
     );
     EXPECT_THROW(ons::SendResultONS sendResult = producer_->send(msg, executor_), ons::ONSClientException);
 }

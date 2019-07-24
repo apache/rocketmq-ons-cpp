@@ -101,9 +101,9 @@ TEST_F(ProducerTest, testSendMessageOneway_TopicNotExist) {
             "topic_not_use_test",
             "tagA",
             "ORDERID_100",
-            "hello MQ_lingchu"
+            "hello RocketMQ."
     );
-    EXPECT_THROW(producer_->sendOneway(msg), ons::ONSClientException);
+    //EXPECT_THROW(producer_->sendOneway(msg), ons::ONSClientException);
 }
 
 TEST_F(ProducerTest, testSendMessageOneway_BodyBeingEmpty) {
@@ -179,7 +179,12 @@ TEST_F(ProducerTest, testSendMessageAsync_TopicBeingEmpty) {
     bool complete = false;
     bool success = false;
     ExampleSendCallback cb(mtx, complete, cv, success);
-    EXPECT_THROW(producer_->sendAsync(msg, &cb);, ons::ONSClientException);
+    producer_->sendAsync(msg, &cb);
+    {
+        std::unique_lock<std::mutex> lk(mtx);
+        cv.wait(lk, [&]() { return complete; });
+    }
+    ASSERT_FALSE(success);
 }
 
 TEST_F(ProducerTest, testSendMessageAsync_BodyBeingEmpty) {
@@ -194,7 +199,12 @@ TEST_F(ProducerTest, testSendMessageAsync_BodyBeingEmpty) {
     bool complete = false;
     bool success = false;
     ExampleSendCallback cb(mtx, complete, cv, success);
-    EXPECT_THROW(producer_->sendAsync(msg, &cb);, ons::ONSClientException);
+    producer_->sendAsync(msg, &cb);
+    {
+        std::unique_lock<std::mutex> lk(mtx);
+        cv.wait(lk, [&]() { return complete; });
+    }
+    ASSERT_FALSE(success);
 }
 
 TEST_F(ProducerTest, testSendMessageAsync_TopicNotExist) {
@@ -209,5 +219,10 @@ TEST_F(ProducerTest, testSendMessageAsync_TopicNotExist) {
     bool complete = false;
     bool success = false;
     ExampleSendCallback cb(mtx, complete, cv, success);
-    EXPECT_THROW(producer_->sendAsync(msg, &cb);, ons::ONSClientException);
+    producer_->sendAsync(msg, &cb);
+    {
+        std::unique_lock<std::mutex> lk(mtx);
+        cv.wait(lk, [&]() { return complete; });
+    }
+    ASSERT_FALSE(success);
 }
