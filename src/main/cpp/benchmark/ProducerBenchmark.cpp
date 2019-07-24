@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 #include "rocketmq.h"
-#include "rocketmq-client-cpp-full.h"
+#include "rocketmq-ons-cpp-full.h"
 #include <cstring>
 
 static void BM_ProducerSendMessage(benchmark::State &state) {
