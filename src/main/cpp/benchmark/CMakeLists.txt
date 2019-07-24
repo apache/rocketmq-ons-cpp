@@ -1,0 +1,5 @@
+add_executable(producer_benchmark ProducerBenchmark.cpp)
+target_link_libraries(producer_benchmark ${ROCKETMQ_CLIENT_CORE} benchmark)
+
+add_executable(example_benchmark ExampleBenchmark.cpp)
+target_link_libraries(example_benchmark benchmark)
