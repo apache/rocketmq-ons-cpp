@@ -31,7 +31,7 @@ OrderConsumerImpl::OrderConsumerImpl(const ons::ONSFactoryProperty &factoryPrope
     factory_property property;
     ons::FactoryPropertyConverter converter(factoryProperty, property, false);
     this->instanceIndex_ = create_order_consumer(thread_, &property);
-    spdlog::info("Create Order Consumer OK, InstanceId:{}, ConsumerID:{}, NameServer:{}",
+    rocketmq::spd_log::info("Create Order Consumer OK, InstanceId:{}, ConsumerID:{}, NameServer:{}",
                  instanceIndex_, factoryProperty.getConsumerId(), factoryProperty.getNameSrvAddr());
 }
 
@@ -43,14 +43,14 @@ void OrderConsumerImpl::start() {
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     start_instance(thread_, instanceIndex_);
-    spdlog::info("Start Order Consumer instance {} OK", instanceIndex_);
+    rocketmq::spd_log::info("Start Order Consumer instance {} OK", instanceIndex_);
 }
 
 void OrderConsumerImpl::shutdown() {
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     destroy_instance(thread_, instanceIndex_);
-    spdlog::info("Destroy Order Consumer instance {} OK", instanceIndex_);
+    rocketmq::spd_log::info("Destroy Order Consumer instance {} OK", instanceIndex_);
 }
 
 #ifdef __cplusplus
@@ -70,7 +70,7 @@ int order_consumer_on_message(void *thread, void *opaque, char *topic, char *use
         case Success:
             return 0;
         case Suspend:
-            spdlog::info("Consume Order Message failed, Topic:{}, MessageId:{}, RecosumeTimes:{}",
+            rocketmq::spd_log::info("Consume Order Message failed, Topic:{}, MessageId:{}, RecosumeTimes:{}",
                          message_.getTopic(), message_.getMsgID(), message_.getReconsumeTimes());
             return 1;
         default:
@@ -104,5 +104,5 @@ void OrderConsumerImpl::subscribe(const char *topic, const char *subExpression, 
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     ::subscribe_order_listener(thread_, instanceIndex_, &sub);
-    spdlog::info("Subscribe OK, InstanceID:{}, Topic:{}, SubExpression:{}", instanceIndex_, topic, subExpression);
+    rocketmq::spd_log::info("Subscribe OK, InstanceID:{}, Topic:{}, SubExpression:{}", instanceIndex_, topic, subExpression);
 }

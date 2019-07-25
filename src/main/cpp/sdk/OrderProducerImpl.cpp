@@ -33,7 +33,7 @@ OrderProducerImpl::OrderProducerImpl(ONSFactoryProperty factoryProperty) throw(o
     factory_property fp;
     FactoryPropertyConverter converter(factoryProperty, fp);
     instanceIndex_ = create_order_producer(thread_, &fp);
-    spdlog::info("Create Order Producer OK, InstanceId:{}, ProducerID:{}, NameServer:{}",
+    rocketmq::spd_log::info("Create Order Producer OK, InstanceId:{}, ProducerID:{}, NameServer:{}",
                  instanceIndex_, factoryProperty.getProducerId(), factoryProperty.getNameSrvAddr());
 }
 
@@ -49,7 +49,7 @@ void OrderProducerImpl::shutdown() {
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     destroy_instance(thread_, instanceIndex_);
-    spdlog::info("Destroy Order Producer instance {} OK", instanceIndex_);
+    rocketmq::spd_log::info("Destroy Order Producer instance {} OK", instanceIndex_);
 }
 
 SendResultONS OrderProducerImpl::send(Message &msg, std::string shardingKey) throw(ons::ONSClientException) {
@@ -64,7 +64,7 @@ SendResultONS OrderProducerImpl::send(Message &msg, std::string shardingKey) thr
         ONSClientException clientException(std::string(sendResult.error_msg), sendResult.error_no);
         throw clientException;
     }
-    spdlog::debug("Send message OK. MsgId: {}", sendResult.message_id);
+    rocketmq::spd_log::debug("Send message OK. MsgId: {}", sendResult.message_id);
     SendResultONS sendResultOns;
     sendResultOns.setMessageId(std::string(sendResult.message_id));
     return sendResultOns;

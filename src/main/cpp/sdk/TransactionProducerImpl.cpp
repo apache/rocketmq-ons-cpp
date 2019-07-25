@@ -61,7 +61,7 @@ namespace ons {
         void *checker = reinterpret_cast<void *>(pTransactionCheckListener);
         void *transaction_check = (void *) transaction_check_func;
         instanceIndex_ = create_transaction_producer(thread_, &fp, checker, transaction_check);
-        spdlog::info("Create Transaction Producer OK, InstanceId:{}, ProducerID:{}, NameServer:{}",
+        rocketmq::spd_log::info("Create Transaction Producer OK, InstanceId:{}, ProducerID:{}, NameServer:{}",
                      instanceIndex_, factoryProperty.getProducerId(), factoryProperty.getNameSrvAddr());
     }
 
@@ -76,7 +76,7 @@ namespace ons {
         graal_isolatethread_t *thread_;
         ThreadAttachment attachment(&thread_);
         destroy_instance(thread_, instanceIndex_);
-        spdlog::info("Destroy Transaction Producer instance {} OK", instanceIndex_);
+        rocketmq::spd_log::info("Destroy Transaction Producer instance {} OK", instanceIndex_);
     }
 
     SendResultONS TransactionProducerImpl::send(Message &msg, LocalTransactionExecuter *pTransactionExecutor) {

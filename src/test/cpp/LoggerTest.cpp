@@ -5,5 +5,5 @@
 
 TEST(LoggerTest, testLog) {
     rocketmq::spd_log::initLogger();
-    spdlog::debug("This is a debug line");
+    rocketmq::spd_log::debug("This is a debug line");
 }

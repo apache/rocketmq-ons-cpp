@@ -35,7 +35,7 @@ ProducerImpl::ProducerImpl(ONSFactoryProperty factoryProperty) throw(ons::ONSCli
     factory_property fp;
     FactoryPropertyConverter converter(factoryProperty, fp);
     instanceIndex_ = create_producer(thread_, &fp);
-    spdlog::info("Create Producer OK, InstanceId:{}, ProducerID:{}, NameServer:{}",
+    rocketmq::spd_log::info("Create Producer OK, InstanceId:{}, ProducerID:{}, NameServer:{}",
                  instanceIndex_, factoryProperty.getProducerId(), factoryProperty.getNameSrvAddr());
 }
 
@@ -51,7 +51,7 @@ void ProducerImpl::shutdown() {
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     destroy_instance(thread_, instanceIndex_);
-    spdlog::info("Destroy Producer instance {} OK", instanceIndex_);
+    rocketmq::spd_log::info("Destroy Producer instance {} OK", instanceIndex_);
 }
 
 ons::SendResultONS ProducerImpl::send(Message &msg) throw(ONSClientException) {
@@ -65,7 +65,7 @@ ons::SendResultONS ProducerImpl::send(Message &msg) throw(ONSClientException) {
     if (sendResult.error_no) {
         throw ONSClientException(std::string(sendResult.error_msg), sendResult.error_no);
     }
-    spdlog::debug("Send message OK. MsgId: {}", sendResult.message_id);
+    rocketmq::spd_log::debug("Send message OK. MsgId: {}", sendResult.message_id);
     SendResultONS sendResultOns;
     sendResultOns.setMessageId(std::string(sendResult.message_id));
     return sendResultOns;

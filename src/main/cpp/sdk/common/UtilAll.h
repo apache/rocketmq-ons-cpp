@@ -60,7 +60,7 @@ namespace ons {
             static graal_isolate_t *singleton = nullptr;
             if (nullptr == singleton) {
                 if (graal_create_isolate(nullptr, &singleton, nullptr)) {
-                    spdlog::error("Failed to create graal isolate");
+                    rocketmq::spd_log::error("Failed to create graal isolate");
                     return nullptr;
                 }
             }
@@ -168,7 +168,7 @@ namespace ons {
             ++isolate_thread_ref_cnt;
 
             if (graal_attach_thread(UtilAll::get_isolate(), thread)) {
-                spdlog::error("Failed to attach native thread {} to graal isolate", ss.str());
+                rocketmq::spd_log::error("Failed to attach native thread {} to graal isolate", ss.str());
                 throw ons::ONSClientException("attach thread to isolate failed", -1);
             }
 
@@ -176,7 +176,7 @@ namespace ons {
             pthread_key_create(&key, &ThreadAttachment::detach);
             pthread_setspecific(key, &ThreadAttachment::isolate_thread_ref_cnt);
 
-            spdlog::debug("Attach thread {} to isolate OK", ss.str());
+            rocketmq::spd_log::debug("Attach thread {} to isolate OK", ss.str());
         }
 
         ~ThreadAttachment() {
@@ -188,7 +188,7 @@ namespace ons {
                 graal_detach_thread(attached);
                 std::stringstream ss;
                 ss << std::this_thread::get_id();
-                spdlog::debug("Detach thread {} from isolate OK", ss.str());
+                rocketmq::spd_log::debug("Detach thread {} from isolate OK", ss.str());
             }
         }
 

@@ -61,6 +61,66 @@ namespace rocketmq {
 
         static void flushLogger();
 
+        template<typename... Args>
+        static inline void trace(const char *fmt, const Args &... args) {
+            spdlog::trace(fmt, args...);
+        }
+
+        template<typename... Args>
+        static inline void debug(const char *fmt, const Args &... args) {
+            spdlog::debug(fmt, args...);
+        }
+
+        template<typename... Args>
+        static inline void info(const char *fmt, const Args &... args) {
+            spdlog::info(fmt, args...);
+        }
+
+        template<typename... Args>
+        static inline void warn(const char *fmt, const Args &... args) {
+            spdlog::warn(fmt, args...);
+        }
+
+        template<typename... Args>
+        static inline void error(const char *fmt, const Args &... args) {
+            spdlog::error(fmt, args...);
+        }
+
+        template<typename... Args>
+        static inline void critical(const char *fmt, const Args &... args) {
+            spdlog::critical(fmt, args...);
+        }
+
+        template<typename T>
+        static inline void trace(const T &msg) {
+            spdlog::trace(msg);
+        }
+
+        template<typename T>
+        static inline void debug(const T &msg) {
+            spdlog::debug(msg);
+        }
+
+        template<typename T>
+        static inline void info(const T &msg) {
+            spdlog::info(msg);
+        }
+
+        template<typename T>
+        static inline void warn(const T &msg) {
+            spdlog::warn(msg);
+        }
+
+        template<typename T>
+        static inline void error(const T &msg) {
+            spdlog::error(msg);
+        }
+
+        template<typename T>
+        static inline void critical(const T &msg) {
+            spdlog::critical(msg);
+        }
+
     private:
         static int isDir(std::string path);
 

@@ -36,7 +36,7 @@ ConsumerImpl::ConsumerImpl(const ons::ONSFactoryProperty &factoryProperty) throw
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     this->instanceIndex_ = create_consumer(thread_, &property);
-    spdlog::info("Create Consumer OK, InstanceId:{}, ConsumerID:{}, NameServer:{}, Trace:{}, MessageModel:{}",
+    rocketmq::spd_log::info("Create Consumer OK, InstanceId:{}, ConsumerID:{}, NameServer:{}, Trace:{}, MessageModel:{}",
                  instanceIndex_, factoryProperty.getConsumerId(),
                  factoryProperty.getNameSrvAddr(), factoryProperty.getOnsTraceSwitch(),
                  factoryProperty.getMessageModel());
@@ -46,7 +46,7 @@ void ConsumerImpl::start() {
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     start_instance(thread_, instanceIndex_);
-    spdlog::info("Start Consumer instance {} OK", instanceIndex_);
+    rocketmq::spd_log::info("Start Consumer instance {} OK", instanceIndex_);
 }
 
 #ifdef __cplusplus
@@ -67,7 +67,7 @@ int consumer_on_message(void *thread, void *opaque, char *topic, char *user_prop
         case CommitMessage:
             return 0;
         case ReconsumeLater:
-            spdlog::info("Consume Message failed, Topic:{}, MessageId:{}, RecosumeTimes:{}",
+            rocketmq::spd_log::info("Consume Message failed, Topic:{}, MessageId:{}, RecosumeTimes:{}",
                          message_.getTopic(), message_.getMsgID(), message_.getReconsumeTimes());
             return 1;
         default:
@@ -100,14 +100,14 @@ void ConsumerImpl::subscribe(const char *topic, const char *subExpression, ons::
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     ::subscribe(thread_, instanceIndex_, &sub);
-    spdlog::info("Subscribe OK, InstanceID:{}, Topic:{}, SubExpression:{}", instanceIndex_, topic, subExpression);
+    rocketmq::spd_log::info("Subscribe OK, InstanceID:{}, Topic:{}, SubExpression:{}", instanceIndex_, topic, subExpression);
 }
 
 void ConsumerImpl::shutdown() {
     graal_isolatethread_t *thread_;
     ThreadAttachment attachment(&thread_);
     destroy_instance(thread_, instanceIndex_);
-    spdlog::info("Destroy Consumer instance {} OK", instanceIndex_);
+    rocketmq::spd_log::info("Destroy Consumer instance {} OK", instanceIndex_);
 }
 
 ConsumerImpl::~ConsumerImpl() {
