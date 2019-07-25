@@ -21,6 +21,7 @@ native-image --shared  -H:Path=./build \
                        --initialize-at-build-time \
                        --initialize-at-run-time=io.netty.handler.ssl.util.BouncyCastleSelfSignedCertGenerator,io.netty.handler.ssl.ReferenceCountedOpenSslClientContext,io.netty.handler.ssl.ReferenceCountedOpenSslServerContext,io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator,io.netty.handler.ssl.JdkAlpnApplicationProtocolNegotiator,io.netty.handler.ssl.util.ThreadLocalInsecureRandom,io.netty.handler.ssl.JettyNpnSslEngine,io.netty.handler.ssl.ReferenceCountedOpenSslEngine,io.netty.handler.ssl.ConscryptAlpnSslEngine,io.netty.handler.ssl.JettyAlpnSslEngine$ClientEngine,io.netty.handler.ssl.JettyAlpnSslEngine$ServerEngine,io.netty.util.internal.ObjectCleaner,io.netty.handler.ssl.util.InsecureTrustManagerFactory
 
+mkdir -p graalvm_artifacts/
 cp build/*.h  graalvm_artifacts/
 
 if test "$(uname)" = "Linux"; then
