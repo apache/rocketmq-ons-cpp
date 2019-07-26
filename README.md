@@ -6,7 +6,7 @@ A full-fledged ONS C/C++ SDK out of its Java Counterpart taking advantage of Gra
 
 ----------
 ## Quick Start
-* Using [quick start](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) binary directly in [Release Version](https://github.com/ShannonDing/rocketmq-ons-cpp/releases)
+* [Quick start](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) using binary library directly in [Release Version](https://github.com/ShannonDing/rocketmq-ons-cpp/releases)
 * Step-by-step instruction are provided in [RocketMQ ONS CPP Introduction](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/Introduction.md).
 * Consult [RocketMQ Quick Start](https://rocketmq.apache.org/docs/quick-start/) to setup rocketmq broker and nameserver.
 
