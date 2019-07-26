@@ -1,7 +1,7 @@
 # rocketmq-ons-cpp
 A full-fledged ONS C/C++ SDK out of its Java Counterpart taking advantage of GraalVM technology.
 
-You can [quick start](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) by release binary, and also you can build it step by step as below.
+You can [quick start demos](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) by release binary, and also you can build it step by step as below.
 
 ----------
 ## Prerequisites
@@ -32,8 +32,8 @@ Take `/root/tools` as the install path, you can install the build tools by below
     export PATH
     ```
     
-2. Apache Maven: Download the binary[3.6.1](http://maven.apache.org/download.cgi) to the install path and unpack it, enable it by set runtime path to ``.bash_profile``.
-3. cmake: Download the binary[3.14](https://cmake.org/download/) to the install path and unpack it, enable it by set runtime path to ``.bash_profile``.
+2. Apache Maven: Download the binary [3.6.1](http://maven.apache.org/download.cgi) to the install path and unpack it, enable it by set runtime path to ``.bash_profile``.
+3. cmake: Download the binary [3.14](https://cmake.org/download/) to the install path and unpack it, enable it by set runtime path to ``.bash_profile``.
 4. g++: for centos7, the default gcc version is 4.8, you can install it by yum
     ```bash
     yum install gcc gcc-c++
