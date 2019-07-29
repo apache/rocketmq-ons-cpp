@@ -4,6 +4,18 @@ set(PROJECT_NAME_DEMO rocketmq-ons-cpp-demo)
 project(${PROJECT_NAME_DEMO} VERSION 1.0
         LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 11)
+
+if (CONAN_LIBCXX STREQUAL "libstdc++11")
+    message("-- Detect libstdc++11,Using -D_GLIBCXX_USE_CXX11_ABI=1")
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
+elseif (CONAN_LIBCXX STREQUAL "libstdc++")
+    message("-- Detect libstdc++, Using -D_GLIBCXX_USE_CXX11_ABI=0")
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+else ()
+    message("-- As Default, Will not open Dual ABI.")
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0
+endif ()
+
 include_directories(../include)
 
 find_library(ROCKETMQ_CLIENT_CORE
