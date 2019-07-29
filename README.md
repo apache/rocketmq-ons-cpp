@@ -1,6 +1,6 @@
 # rocketmq-ons-cpp
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![TravisCI](https://travis-ci.org/ShannonDing/rocketmq-ons-cpp.svg)](https://travis-ci.org/apache/rocketmq-ons-cpp)
+[![TravisCI](https://travis-ci.org/ShannonDing/rocketmq-ons-cpp.svg)](https://travis-ci.org/ShannonDing/rocketmq-ons-cpp)
 
 A full-fledged ONS C/C++ SDK out of its Java Counterpart taking advantage of GraalVM technology.
 
@@ -19,7 +19,7 @@ A full-fledged ONS C/C++ SDK out of its Java Counterpart taking advantage of Gra
 * Mailing Lists: <https://rocketmq.apache.org/about/contact/>
 * Home: <https://rocketmq.apache.org>
 * Docs: <https://rocketmq.apache.org/docs/quick-start/>
-* Issues: <https://github.com/apache/rocketmq-client-python/issues>
+* Issues: <https://github.com/apache/rocketmq/issues>
 * Ask: <https://stackoverflow.com/questions/tagged/rocketmq>
 * Slack: <https://rocketmq-community.slack.com/>
  
