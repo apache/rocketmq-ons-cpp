@@ -22,12 +22,12 @@
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
             <artifactId>graal-sdk</artifactId>
-            <version>1.0.0-rc15</version>
+            <version>19.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.oracle.substratevm</groupId>
             <artifactId>svm</artifactId>
-            <version>1.0.0-rc15</version>
+            <version>19.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
