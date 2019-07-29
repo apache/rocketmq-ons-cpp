@@ -1,0 +1,4 @@
+版本 2.0.0-beta 2019/07/28
+  * 基于Java ons v1.8.0 SDK内核，使用native-image直接生成C++ native library，功能和现有Java SDK保持一致。
+  * 基于接口ons cpp V1.X接口，保持接口向前兼容；
+  * 无第三方依赖，启动速度更快，运行更高效。
