@@ -73,15 +73,15 @@ Take `/root/tools` as the install path, you can install the build tools by below
     warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
     ```
 ## Build 
-0. Download source file
+1. Download source file
     ```bash
     git clone --recursive git@github.com:apache/rocketmq-ons-cpp.git
     ```
-1. Build the cpp core by ***mvn install*** command
+2. Build the cpp core by ***mvn install*** command
     ```bash
     mvn install
     ```
-2. After finished, you can find the core libary in the build folder and the Head file in the graalvm_artifacts folder.
+3. After finished, you can find the core libary in the build folder and the Head file in the graalvm_artifacts folder.
     ```bash
     root@974285cc0d03:~/OpenSource/rocketmq-ons-cpp/build# ll librocketmq_client_core.so
     -rwxr-xr-x  1 root root 30198632 Jul 19 07:43 librocketmq_client_core.so*
@@ -95,7 +95,7 @@ Take `/root/tools` as the install path, you can install the build tools by below
     -rw-r--r--  1 root root 1278 Jul 19 07:43 rocketmq-ons-cpp-full.h
     -rw-r--r--  1 root root 1526 Jul 19 07:43 rocketmq-ons-cpp-full_dynamic.h
     ```
-3. Build ONS library
+4. Build ONS library
     ```bash
     mkdir dist & cd dist
     cmake ../
