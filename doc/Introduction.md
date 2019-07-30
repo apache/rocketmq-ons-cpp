@@ -1,7 +1,7 @@
 # rocketmq-ons-cpp
 A full-fledged ONS C/C++ SDK out of its Java Counterpart taking advantage of GraalVM technology.
 
-You can [quick start demos](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) by release binary, and also you can build it step by step as below.
+You can [quick start demos](https://github.com/apache/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) by release binary, and also you can build it step by step as below.
 
 ----------
 ## Prerequisites

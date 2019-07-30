@@ -1,13 +1,13 @@
 # rocketmq-ons-cpp
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![TravisCI](https://travis-ci.org/ShannonDing/rocketmq-ons-cpp.svg)](https://travis-ci.org/ShannonDing/rocketmq-ons-cpp)
+[![TravisCI](https://travis-ci.org/apache/rocketmq-ons-cpp.svg)](https://travis-ci.org/apache/rocketmq-ons-cpp)
 
 A full-fledged ONS C/C++ SDK out of its Java Counterpart taking advantage of GraalVM technology.
 
 ----------
 ## Quick Start
-* [Quick start](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) using binary library directly in [Release Version](https://github.com/ShannonDing/rocketmq-ons-cpp/releases)
-* Step-by-step instruction are provided in [RocketMQ ONS CPP Introduction](https://github.com/ShannonDing/rocketmq-ons-cpp/blob/master/doc/Introduction.md).
+* [Quick start](https://github.com/apache/rocketmq-ons-cpp/blob/master/doc/QuickStart.md) using binary library directly in [Release Version](https://github.com/apache/rocketmq-ons-cpp/releases)
+* Step-by-step instruction are provided in [RocketMQ ONS CPP Introduction](https://github.com/apache/rocketmq-ons-cpp/blob/master/doc/Introduction.md).
 * Consult [RocketMQ Quick Start](https://rocketmq.apache.org/docs/quick-start/) to setup rocketmq broker and nameserver.
 
 ----------

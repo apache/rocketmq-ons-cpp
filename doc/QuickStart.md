@@ -2,7 +2,7 @@
 -------------
 #### 1. 版本包介绍
 
-下载对应操作系统内核的[版本](https://github.com/ShannonDing/rocketmq-ons-cpp/releases)后进行解压，会有如下目录结构: 
+下载对应操作系统内核的[版本](https://github.com/apache/rocketmq-ons-cpp/releases)后进行解压，会有如下目录结构: 
 ```
 demos/
 include/
