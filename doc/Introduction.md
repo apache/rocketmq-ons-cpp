@@ -73,6 +73,10 @@ Take `/root/tools` as the install path, you can install the build tools by below
     warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
     ```
 ## Build 
+0. Download source file
+    ```bash
+    git clone --recursive git@github.com:apache/rocketmq-ons-cpp.git
+    ```
 1. Build the cpp core by ***mvn install*** command
     ```bash
     mvn install
