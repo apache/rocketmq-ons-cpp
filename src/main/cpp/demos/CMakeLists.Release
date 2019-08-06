@@ -13,7 +13,7 @@ elseif (CONAN_LIBCXX STREQUAL "libstdc++")
     add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
 else ()
     message("-- As Default, Will not open Dual ABI.")
-    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0
+    add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
 endif ()
 
 include_directories(../include)
