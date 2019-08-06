@@ -23,15 +23,20 @@ if [[ ${base_dir_name} != ${HOME_PATH} ]];then
   exit -1
 fi
 
+# step 1 check license output
 
-# setp1 check headfile output
+if [[ ! -e "licenses" ]]; then
+  echo "Licenses path licenses does not exist, please check."
+  exit -1
+fi
+# step 2 check headfile output
 
 if [[ ! -e "src/main/cpp/include" ]]; then
   echo "Head file path src/main/cpp/include does not exist, please check."
   exit -2
 fi
 
-# setp2 check lib/libonsclient4cpp.so and build/librocketmq_client_core.so
+# step 3 check lib/libonsclient4cpp.so and build/librocketmq_client_core.so
 if [[ ! -e "build/${CORE_LIBRARY_NAME}.${LIBRARY_SUFFIX}" ]];then
   echo "Core library build/${CORE_LIBRARY_NAME}.${LIBRARY_SUFFIX} not exits, please execute mvn install"
   exit -3
@@ -42,13 +47,19 @@ echo "ONS API Library ${API_LIBRARY_NAME}.${LIBRARY_SUFFIX} not exits, please go
 exit -3
 fi
 
-
+# step 4, check demos
 if [[ ! -e "src/main/cpp/demos" ]];then
   echo "Demo path src/main/cpp/demos does not exists, please check."
   exit -4
 fi
 
-# setp5 aliyun-mq-linux-cpp-sdk
+# step 5, check docs
+if [[ ! -e "doc" ]];then
+  echo "doc path doc does not exists, please check."
+  exit -5
+fi
+
+# step 6 remove old package path
 if [[ -e ${PACKAGE_NAME} ]] || [[ -e ${PACKAGE_NAME}.tar.gz ]];then
   echo "find old package dir, we will delete this package file."
   rm -rf ${PACKAGE_NAME} &>/dev/null
@@ -72,6 +83,9 @@ echo "Copy demo make file................."
 cp -f src/main/cpp/demos/CMakeLists.Release ${PACKAGE_NAME}/demos/CMakeLists.txt
 echo "Copy changlog................."
 cp -f doc/changelog ${PACKAGE_NAME}/doc/
+echo "Copy license and notice file................."
+cp -f licenses/LICENSE-BIN.txt ${PACKAGE_NAME}/LICENSE.txt
+cp -f licenses/NOTICE-BIN.txt ${PACKAGE_NAME}/NOTICE.txt
 echo "========================packaging end ================================================"
 
 
