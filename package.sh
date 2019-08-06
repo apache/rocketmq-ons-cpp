@@ -84,8 +84,8 @@ cp -f src/main/cpp/demos/CMakeLists.Release ${PACKAGE_NAME}/demos/CMakeLists.txt
 echo "Copy changlog................."
 cp -f doc/changelog ${PACKAGE_NAME}/doc/
 echo "Copy license and notice file................."
-cp -f licenses/LICENSE-BIN.txt ${PACKAGE_NAME}/LICENSE.txt
-cp -f licenses/NOTICE-BIN.txt ${PACKAGE_NAME}/NOTICE.txt
+cp -f licenses/LICENSE-BIN ${PACKAGE_NAME}/LICENSE
+cp -f licenses/NOTICE-BIN ${PACKAGE_NAME}/NOTICE
 echo "========================packaging end ================================================"
 
 
