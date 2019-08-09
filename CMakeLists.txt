@@ -25,7 +25,9 @@ option(BUILD_DEMOS "Build demos" ON)
 
 include_directories(graalvm_artifacts
         src/main/c/native
+        src/main/c/include
         src/main/cpp/include
+        src/main/cpp/sdk/extern
         src/main/cpp/sdk/common)
 
 find_library(ROCKETMQ_CLIENT_CORE
