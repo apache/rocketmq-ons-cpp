@@ -69,6 +69,10 @@ public class CInterface {
     static class CPropertiesDirectives implements CContext.Directives {
 
         public List<String> getOptions() {
+            /*
+             * When Gcc version is 5.X, it support Dual_ABI, if needed, Open it.
+             * Set it to 0 as default
+             */
             if ("true".equalsIgnoreCase(System.getProperty("OPEN_DUAL_ABI"))) {
                 System.out.println("-D_GLIBCXX_USE_CXX11_ABI=1 -I/usr/local/include");
                 return Arrays.asList("-D_GLIBCXX_USE_CXX11_ABI=1 -I/usr/local/include");
@@ -243,6 +247,19 @@ public class CInterface {
 
         @CField("use_domain")
         void setUseDomain(int value);
+
+        @CField("max_msg_cache_size_in_mb")
+        CCharPointer getMaxMsgCacheSizeInMb();
+
+        @CField("max_msg_cache_size_in_mb")
+        void setMaxMsgCacheSizeInMb(CCharPointer value);
+
+        @CField("suspend_time_millis")
+        CCharPointer getSuspendTimeMillis();
+
+        @CField("suspend_time_millis")
+        void setSuspendTimeMillis(CCharPointer value);
+
     }
 
     @CStruct("callback_func") interface CCallbackFunc extends PointerBase {
@@ -365,6 +382,8 @@ public class CInterface {
         String sendMsgTimeoutMillis = CTypeConversion.toJavaString(property.getSendMsgTimeoutMillis());
         String languageIdentifier = CTypeConversion.toJavaString(property.getLanguageIdentifier());
         String instanceId = CTypeConversion.toJavaString(property.getInstanceId());
+        String maxMsgCacheSizeInMb = CTypeConversion.toJavaString(property.getMaxMsgCacheSizeInMb());
+        String suspendTimeMillis = CTypeConversion.toJavaString(property.getSuspendTimeMillis());
 
         if (messageModel != null && !messageModel.trim().isEmpty()) {
             properties.put(PropertyKeyConst.MessageModel, messageModel);
@@ -375,8 +394,11 @@ public class CInterface {
         if (onsChannel != null) {
             properties.put(PropertyKeyConst.OnsChannel, onsChannel);
         }
-        if (maxMsgCacheSize != null) {
-            properties.put(PropertyKeyConst.MaxCachedMessageSizeInMiB, maxMsgCacheSize);
+        if (maxMsgCacheSize != null && Integer.valueOf(maxMsgCacheSize) > 0) {
+            properties.put(PropertyKeyConst.MaxCachedMessageAmount, maxMsgCacheSize);
+        }
+        if (maxMsgCacheSizeInMb != null && Integer.valueOf(maxMsgCacheSizeInMb) > 0) {
+            properties.put(PropertyKeyConst.MaxCachedMessageSizeInMiB, maxMsgCacheSizeInMb);
         }
         if (onsTraceSwitch != null) {
             properties.put(PropertyKeyConst.MsgTraceSwitch, onsTraceSwitch);
@@ -387,11 +409,14 @@ public class CInterface {
         if (languageIdentifier != null) {
             properties.put(PropertyKeyConst.LANGUAGE_IDENTIFIER, languageIdentifier);
         }
-        if (sendMsgTimeoutMillis != null) {
+        if (sendMsgTimeoutMillis != null && Integer.valueOf(sendMsgTimeoutMillis) >= 0) {
             int sendMsgTimeoutMillis_ = Integer.parseInt(sendMsgTimeoutMillis);
-            if (sendMsgTimeoutMillis_ >= 100 && sendMsgTimeoutMillis_ < 3000) {
+            if (sendMsgTimeoutMillis_ >= 100 && sendMsgTimeoutMillis_ <= 3000) {
                 properties.put(PropertyKeyConst.SendMsgTimeoutMillis, sendMsgTimeoutMillis);
             }
+        }
+        if (suspendTimeMillis != null && Integer.valueOf(suspendTimeMillis) >= 0) {
+            properties.put(PropertyKeyConst.SuspendTimeMillis, suspendTimeMillis);
         }
         if (instanceId != null) {
             properties.put(PropertyKeyConst.INSTANCE_ID, instanceId);

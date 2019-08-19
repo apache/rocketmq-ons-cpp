@@ -44,12 +44,17 @@ std::string UtilAll::to_string(const std::map<std::string, std::string> &prop) {
 void UtilAll::init_factory_property(const ons::ONSFactoryProperty &factoryProperty, factory_property &fp,
                                     bool is_producer) {
     memset(&fp, 0, sizeof(factory_property));
-    if (is_producer) {
+    string groupID(factoryProperty.getGroupId());
+    if (!groupID.empty()) {
         fp.group_id = const_cast<char *>(factoryProperty.getProducerId());
-
     } else {
-        fp.group_id = const_cast<char *>(factoryProperty.getConsumerId());
+        if (is_producer) {
+            fp.group_id = const_cast<char *>(factoryProperty.getProducerId());
 
+        } else {
+            fp.group_id = const_cast<char *>(factoryProperty.getConsumerId());
+
+        }
     }
     fp.access_key = const_cast<char *>(factoryProperty.getAccessKey());
     fp.access_secret = const_cast<char *>(factoryProperty.getSecretKey());
@@ -68,6 +73,11 @@ void UtilAll::init_factory_property(const ons::ONSFactoryProperty &factoryProper
     char *send_msg_timeout_millis_ = new char[send_msg_timeout_millis.length() + 1];
     strcpy(send_msg_timeout_millis_, send_msg_timeout_millis.c_str());
     fp.send_msg_timeout_millis = send_msg_timeout_millis_;
+
+    string suspend_time_millis = to_string(factoryProperty.getSuspendTimeMillis());
+    char *suspend_time_millis_ = new char[suspend_time_millis.length() + 1];
+    strcpy(suspend_time_millis_, suspend_time_millis.c_str());
+    fp.suspend_time_millis = suspend_time_millis_;
 
     string consume_thread_nums = to_string(factoryProperty.getConsumeThreadNums());
     char *consume_thread_nums_ = new char[consume_thread_nums.length() + 1];
@@ -103,6 +113,11 @@ void UtilAll::init_factory_property(const ons::ONSFactoryProperty &factoryProper
     char *max_msg_cache_size_ = new char[max_msg_cache_size.length() + 1];
     strcpy(max_msg_cache_size_, max_msg_cache_size.c_str());
     fp.max_msg_cache_size = max_msg_cache_size_;
+
+    string max_msg_cache_size_in_mib = to_string(factoryProperty.getMaxMsgCacheSizeInMiB());
+    char *max_msg_cache_size_in_mib_ = new char[max_msg_cache_size_in_mib.length() + 1];
+    strcpy(max_msg_cache_size_in_mib_, max_msg_cache_size_in_mib.c_str());
+    fp.max_msg_cache_size_in_mb = max_msg_cache_size_in_mib_;
 
     string ons_trace_switch = "true";
     if (!factoryProperty.getOnsTraceSwitch()) {
