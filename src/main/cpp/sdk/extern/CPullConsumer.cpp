@@ -19,6 +19,7 @@
 #include "CCommon.h"
 #include "CMessageExt.h"
 #include "ONSFactory.h"
+#include "string.h"
 
 using namespace ons;
 using namespace std;
