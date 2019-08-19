@@ -90,6 +90,9 @@ CProducer *CreateProducer(const char *groupId) {
     }
     DefaultProducer *defaultMQProducer = new DefaultProducer();
     defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::GroupId, groupId);
+    defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::AccessKey, "AK");
+    defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::SecretKey, "SK");
+    defaultMQProducer->factoryInfo.setOnsChannel(ONSChannel::LOCAL);
     defaultMQProducer->cSendCallback = new CSendCallback(NULL, NULL);
     return (CProducer *) defaultMQProducer;
 }
@@ -145,6 +148,9 @@ int SendMessageSync(CProducer *producer, CMessage *msg, CSendResult *result) {
     }
     try {
         DefaultProducer *defaultProducer = (DefaultProducer *) producer;
+        if (defaultProducer->innerProducer == NULL){
+            return  NULL_POINTER;
+        }
         Message *message = (Message *) msg;
         SendResultONS sendResult = defaultProducer->innerProducer->send(*message);
         result->sendStatus = E_SEND_OK;
@@ -173,6 +179,9 @@ int SendMessageAsync(CProducer *producer,
         return NULL_POINTER;
     }
     DefaultProducer *defaultProducer = (DefaultProducer *) producer;
+    if (defaultProducer->innerProducer == NULL){
+        return  NULL_POINTER;
+    }
     Message *message = (Message *) msg;
     SendResultONS sendResult = defaultProducer->innerProducer->send(*message);
 
@@ -197,6 +206,9 @@ int SendMessageOneway(CProducer *producer, CMessage *msg) {
         return NULL_POINTER;
     }
     DefaultProducer *defaultProducer = (DefaultProducer *) producer;
+    if (defaultProducer->innerProducer == NULL){
+        return  NULL_POINTER;
+    }
     Message *message = (Message *) msg;
     try {
         defaultProducer->innerProducer->sendOneway(*message);
@@ -211,6 +223,9 @@ int SendMessageOnewayOrderly(CProducer *producer, CMessage *msg, QueueSelectorCa
         return NULL_POINTER;
     }
     DefaultProducer *defaultProducer = (DefaultProducer *) producer;
+    if (defaultProducer->innerProducer == NULL){
+        return  NULL_POINTER;
+    }
     Message *message = (Message *) msg;
     try {
         //defaultProducer->innerProducer->sendOneway(*message);

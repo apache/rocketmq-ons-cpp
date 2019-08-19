@@ -73,6 +73,9 @@ CPushConsumer *CreatePushConsumer(const char *groupId) {
     }
     DefaultPushConsumer *defaultPushConsumer = new DefaultPushConsumer();
     defaultPushConsumer->factoryInfo.setFactoryProperty(ONSFactoryProperty::GroupId, groupId);
+    defaultPushConsumer->factoryInfo.setFactoryProperty(ONSFactoryProperty::AccessKey, "AK");
+    defaultPushConsumer->factoryInfo.setFactoryProperty(ONSFactoryProperty::SecretKey, "SK");
+    defaultPushConsumer->factoryInfo.setOnsChannel(ONSChannel::LOCAL);
     memset(defaultPushConsumer->expression, 0, CAPI_MAX_SUB_EXPRESS_LEN);
     return (CPushConsumer *) defaultPushConsumer;
 }
@@ -91,6 +94,8 @@ int StartPushConsumer(CPushConsumer *consumer) {
     try {
         defaultPushConsumer->innerConsumer = ONSFactory::getInstance()->createPushConsumer(
                 defaultPushConsumer->factoryInfo);
+        defaultPushConsumer->innerConsumer->subscribe(defaultPushConsumer->factoryInfo.getPublishTopics(),
+                                                      defaultPushConsumer->expression, g_ListenerMap[consumer]);
         defaultPushConsumer->innerConsumer->start();
     } catch (exception &e) {
         return PULLCONSUMER_START_FAILED;
@@ -149,8 +154,6 @@ int RegisterMessageCallback(CPushConsumer *consumer, MessageCallBack pCallback) 
 
     DefaultPushConsumer *defaultPushConsumer = (DefaultPushConsumer *) consumer;
     MessageListenerInner *listenerInner = new MessageListenerInner(consumer, pCallback);
-    defaultPushConsumer->innerConsumer->subscribe(defaultPushConsumer->factoryInfo.getPublishTopics(),
-                                                  defaultPushConsumer->expression, listenerInner);
     g_ListenerMap[consumer] = listenerInner;
     return OK;
 }
