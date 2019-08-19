@@ -44,6 +44,7 @@ if (BUILD_TESTS)
     enable_testing()
     add_subdirectory(3rd_party/google_test)
     add_subdirectory(src/test/cpp)
+    add_subdirectory(src/test/c)
 endif ()
 
 if (BUILD_DEMOS)
