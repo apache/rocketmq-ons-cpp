@@ -54,6 +54,8 @@ typedef struct factory_property_struct {
     char *language_identifier;
     char *instance_id;
     int use_domain;
+    char *max_msg_cache_size_in_mb;
+    char *suspend_time_millis;
 } factory_property;
 
 typedef struct callback_func_struct {
