@@ -54,6 +54,10 @@ namespace ons {
             return atoll(str);
         }
 
+        static int str2i(const char *str) {
+            return atoi(str);
+        }
+
         static std::string to_string(const std::map<std::string, std::string> &prop);
 
         static graal_isolate_t *get_isolate() {

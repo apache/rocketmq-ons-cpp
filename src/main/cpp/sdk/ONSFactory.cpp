@@ -39,8 +39,10 @@ namespace ons {
     const char *ONSFactoryProperty::BROADCASTING = "BROADCASTING";
     const char *ONSFactoryProperty::CLUSTERING = "CLUSTERING";
     const char *ONSFactoryProperty::SendMsgTimeoutMillis = "SendMsgTimeoutMillis";
+    const char *ONSFactoryProperty::SuspendTimeMillis = "SuspendTimeMillis";
     const char *ONSFactoryProperty::SendMsgRetryTimes = "SendMsgRetryTimes";
     const char *ONSFactoryProperty::MaxMsgCacheSize = "MaxMsgCacheSize";
+    const char *ONSFactoryProperty::MaxCachedMessageSizeInMiB = "MaxCachedMessageSizeInMiB";
     const char *ONSFactoryProperty::ONSAddr =
             "ONSAddr";  // name server domain name
     const char *ONSFactoryProperty::NAMESRV_ADDR =
@@ -219,7 +221,15 @@ namespace ons {
         if (it != m_onsFactoryProperties.end()) {
             return atoi((*it).second.c_str());
         }
-        return 0;
+        return -1;
+    }
+    const int ONSFactoryProperty::getSuspendTimeMillis() const {
+        map<string, string>::const_iterator it =
+                m_onsFactoryProperties.find(SuspendTimeMillis);
+        if (it != m_onsFactoryProperties.end()) {
+            return atoi((*it).second.c_str());
+        }
+        return -1;
     }
 
     const int ONSFactoryProperty::getSendMsgRetryTimes() const {
@@ -228,7 +238,7 @@ namespace ons {
         if (it != m_onsFactoryProperties.end()) {
             return atoi((*it).second.c_str());
         }
-        return 0;
+        return -1;
     }
 
     const int ONSFactoryProperty::getMaxMsgCacheSize() const {
@@ -238,7 +248,17 @@ namespace ons {
             return atoi((*it).second.c_str());
         }
 
-        return 0;
+        return -1;
+    }
+
+    const int ONSFactoryProperty::getMaxMsgCacheSizeInMiB() const {
+        map<string, string>::const_iterator it =
+                m_onsFactoryProperties.find(MaxCachedMessageSizeInMiB);
+        if (it != m_onsFactoryProperties.end()) {
+            return atoi((*it).second.c_str());
+        }
+
+        return -1;
     }
 
     const ONSChannel ONSFactoryProperty::getOnsChannel() const {
@@ -270,7 +290,7 @@ namespace ons {
             return atoi((*it).second.c_str());
         }
 
-        return 0;
+        return -1;
     }
 
     const char *ONSFactoryProperty::getNameSrvAddr() const {

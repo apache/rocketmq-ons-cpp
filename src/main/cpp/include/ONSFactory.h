@@ -68,11 +68,15 @@ namespace ons {
 
         const int getSendMsgTimeout() const;
 
+        const int getSuspendTimeMillis() const;
+
         const int getSendMsgRetryTimes() const;
 
         const int getConsumeThreadNums() const;
 
         const int getMaxMsgCacheSize() const;
+
+        const int getMaxMsgCacheSizeInMiB() const;
 
         const ONSChannel getOnsChannel() const;
 
@@ -108,10 +112,12 @@ namespace ons {
         static const char *BROADCASTING;
         static const char *CLUSTERING;
         static const char *SendMsgTimeoutMillis;
+        static const char *SuspendTimeMillis;
         static const char *NAMESRV_ADDR;
         static const char *ConsumeThreadNums;
         static const char *OnsChannel;
         static const char *MaxMsgCacheSize;
+        static const char *MaxCachedMessageSizeInMiB;
         static const char *OnsTraceSwitch;
         static const char *SendMsgRetryTimes;
         static const char *ConsumerInstanceName;
