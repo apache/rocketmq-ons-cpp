@@ -244,6 +244,9 @@ int SetPushConsumerSessionCredentials(CPushConsumer *consumer,
     }
     ((DefaultPushConsumer *) consumer)->factoryInfo.setFactoryProperty(ONSFactoryProperty::AccessKey, accessKey);
     ((DefaultPushConsumer *) consumer)->factoryInfo.setFactoryProperty(ONSFactoryProperty::SecretKey, secretKey);
+    if (channel != NULL) {
+        ((DefaultPushConsumer *) consumer)->factoryInfo.setFactoryProperty(ONSFactoryProperty::OnsChannel, channel);
+    }
     return OK;
 }
 

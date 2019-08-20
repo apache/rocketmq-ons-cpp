@@ -284,6 +284,9 @@ int SetProducerSessionCredentials(CProducer *producer,
     }
     ((DefaultProducer *) producer)->factoryInfo.setFactoryProperty(ONSFactoryProperty::AccessKey, accessKey);
     ((DefaultProducer *) producer)->factoryInfo.setFactoryProperty(ONSFactoryProperty::SecretKey, secretKey);
+    if (onsChannel != NULL){
+        ((DefaultProducer *) producer)->factoryInfo.setFactoryProperty(ONSFactoryProperty::OnsChannel, onsChannel);
+    }
     return OK;
 }
 int SetProducerLogPath(CProducer *producer, const char *logPath) {
