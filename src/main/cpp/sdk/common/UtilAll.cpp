@@ -90,16 +90,10 @@ void UtilAll::init_factory_property(const ons::ONSFactoryProperty &factoryProper
             ons_channel = "ALIYUN";
             break;
         case CLOUD:
-            ons_channel = "CLOUD";
-            break;
         case ALL:
-            ons_channel = "ALL";
-            break;
         case LOCAL:
-            ons_channel = "LOCAL";
-            break;
         case INNER:
-            ons_channel = "INNER";
+            ons_channel = "CLOUD";
             break;
         default:
             ons_channel = "ALIYUN";

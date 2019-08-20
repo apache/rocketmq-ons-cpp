@@ -90,8 +90,8 @@ CProducer *CreateProducer(const char *groupId) {
     }
     DefaultProducer *defaultMQProducer = new DefaultProducer();
     defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::GroupId, groupId);
-    defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::AccessKey, "AK");
-    defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::SecretKey, "SK");
+    //defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::AccessKey, "AK");
+    //defaultMQProducer->factoryInfo.setFactoryProperty(ONSFactoryProperty::SecretKey, "SK");
     defaultMQProducer->factoryInfo.setOnsChannel(ONSChannel::LOCAL);
     defaultMQProducer->cSendCallback = new CSendCallback(NULL, NULL);
     return (CProducer *) defaultMQProducer;
