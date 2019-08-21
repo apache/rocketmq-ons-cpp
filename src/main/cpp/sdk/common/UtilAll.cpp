@@ -46,7 +46,7 @@ void UtilAll::init_factory_property(const ons::ONSFactoryProperty &factoryProper
     memset(&fp, 0, sizeof(factory_property));
     string groupID(factoryProperty.getGroupId());
     if (!groupID.empty()) {
-        fp.group_id = const_cast<char *>(factoryProperty.getProducerId());
+        fp.group_id = const_cast<char *>(factoryProperty.getGroupId());
     } else {
         if (is_producer) {
             fp.group_id = const_cast<char *>(factoryProperty.getProducerId());

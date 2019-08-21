@@ -19,7 +19,7 @@ protected:
     void SetUp() override {
         consumer_ = CreatePushConsumer("GID_opensource_unit_test");
         SetPushConsumerNameServerAddress(consumer_, "47.100.33.127:9876");
-        SetPushConsumerSessionCredentials(consumer_, "AK", "SK", "LOCAL");
+        //SetPushConsumerSessionCredentials(consumer_, "AK", "SK", "LOCAL");
         //StartPushConsumer(consumer_);
     }
 
@@ -41,6 +41,7 @@ TEST_F(CPushConsumerTest, test_ConsumeMessage) {
     RegisterMessageCallback(consumer_,onMessages);
     StartPushConsumer(consumer_);
     std::this_thread::sleep_for(std::chrono::milliseconds(10 * 1000));
+    ShutdownPushConsumer(consumer_);
     ASSERT_TRUE(nullptr != consumer_);
 }
 
