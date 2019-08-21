@@ -14,7 +14,7 @@ protected:
     void SetUp() override {
         producer_ = CreateProducer("GID_opensource_unit_test");
         SetProducerNameServerAddress(producer_, "47.100.33.127:9876");
-        SetProducerSessionCredentials(producer_, "AK", "SK", "LOCAL");
+        //SetProducerSessionCredentials(producer_, "AK", "SK", "LOCAL");
         StartProducer(producer_);
     }
 
@@ -37,7 +37,8 @@ TEST_F(CProducerTest, testSendMessage_Normal) {
     SetMessageTags(message, "TAG");
     SetMessageBody(message, "This is Message Body.");
     CSendResult sendResult;
-    SendMessageSync(producer_, message, &sendResult);
-    std::cout<<"Send OK,MessageID:"<< sendResult.msgId<<std::endl;
+    int ret = SendMessageSync(producer_, message, &sendResult);
+    std::cout << "Send Ret:" << ret << ", Result:" << sendResult.sendStatus << ", MessageID:" << sendResult.msgId
+              << std::endl;
     ASSERT_TRUE(E_SEND_OK == sendResult.sendStatus);
 }
