@@ -522,63 +522,47 @@ public class CInterface {
     @CEntryPoint(name = "send_message")
     public static void send_message(IsolateThread thread, int producerId, CMessage cMsg, CSendResult sendResult) {
         Admin instance = instances.get(producerId);
-        CTypeConversion.CCharPointerHolder pin = null;
-        try {
-            if (instance instanceof Producer) {
-                try {
-                    Message msg = message_transformer(cMsg);
-                    SendResult result = ((Producer) instance).send(msg);
-                    sendResult.setErrorCode(0);
-                    //sendResult.setError(CTypeConversion.toCString(null).get());
-                    //sendResult.setMessageId(CTypeConversion.toCString(result.getMessageId()).get());
-                    pin = CTypeConversion.toCString(result.getMessageId());
-                    int len = Math.min(ONS_SEND_RESULT_MSG_ID_LEN, result.getMessageId().length());
-                    memmove(sendResult.getMessageId(), pin.get(), WordFactory.unsigned(len));
-                } catch (ONSClientException e) {
-                    sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
-                    pin = CTypeConversion.toCString(e.getMessage());
-                    memmove(sendResult.getError(), pin.get(),
-                        WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
-                }
-            } else {
-                sendResult.setErrorCode(ErrorCode.BAD_PRODUCER_INDEX.getCode());
-                pin = CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc());
-                int length = Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, ErrorCode.BAD_PRODUCER_INDEX.getDesc().length());
-                memmove(sendResult.getError(), pin.get(), WordFactory.unsigned(length));
+
+        if (instance instanceof Producer) {
+            try {
+                Message msg = message_transformer(cMsg);
+                SendResult result = ((Producer) instance).send(msg);
+                sendResult.setErrorCode(0);
+                int len = Math.min(ONS_SEND_RESULT_MSG_ID_LEN, result.getMessageId().length());
+                CTypeConversion.toCString(result.getMessageId(), sendResult.getMessageId(), WordFactory.unsigned(len));
+            } catch (ONSClientException e) {
+                sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
+                CTypeConversion.toCString(e.getMessage(), sendResult.getError(),
+                    WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
             }
-        } finally {
-            if (null != pin) {
-                pin.close();
-            }
+        } else {
+            sendResult.setErrorCode(ErrorCode.BAD_PRODUCER_INDEX.getCode());
+            int length = Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, ErrorCode.BAD_PRODUCER_INDEX.getDesc().length());
+            CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc(), sendResult.getError(), WordFactory.unsigned(length));
         }
+
     }
 
     @CEntryPoint(name = "send_message_oneway")
     public static void send_message_oneway(IsolateThread thread, int producerId, CMessage cMsg,
         CSendResult sendResult) {
         Admin instance = instances.get(producerId);
-        CTypeConversion.CCharPointerHolder pin = null;
-        try {
-            if (instance instanceof Producer) {
-                Message message = message_transformer(cMsg);
-                try {
-                    ((Producer) instance).sendOneway(message);
-                } catch (ONSClientException e) {
-                    sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
-                    pin = CTypeConversion.toCString(e.getMessage());
-                    int len = Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length());
-                    memmove(sendResult.getError(), pin.get(), WordFactory.unsigned(len));
-                }
-            }
-        } finally {
-            if (null != pin) {
-                pin.close();
+
+        if (instance instanceof Producer) {
+            Message message = message_transformer(cMsg);
+            try {
+                ((Producer) instance).sendOneway(message);
+            } catch (ONSClientException e) {
+                sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
+                int len = Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length());
+                CTypeConversion.toCString(e.getMessage(), sendResult.getError(), WordFactory.unsigned(len));
             }
         }
+
     }
 
-    @CFunction
-    protected static native PointerBase memmove(PointerBase dest, PointerBase src, UnsignedWord n);
+    // @CFunction
+    //protected static native PointerBase memmove(PointerBase dest, PointerBase src, UnsignedWord n);
 
     @CEntryPoint(name = "send_message_async")
     public static void send_message_async(final IsolateThread thread, int producerId, final CMessage cMessage,
@@ -592,18 +576,12 @@ public class CInterface {
             mcb.exceptionFunctionPtr = cCallbackFunc.getExceptionFunction();
             mcb.successFunctionPtr = cCallbackFunc.getSuccessFunction();
             mcb.message = cMessage.getBody();
-            CTypeConversion.CCharPointerHolder pin = null;
             try {
                 ((Producer) instance).sendAsync(message, mcb);
             } catch (ONSClientException e) {
                 cSendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
-                pin = CTypeConversion.toCString(e.getMessage());
-                memmove(cSendResult.getError(), pin.get(),
+                CTypeConversion.toCString(e.getMessage(), cSendResult.getError(),
                     WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
-            } finally {
-                if (null != pin) {
-                    pin.close();
-                }
             }
         }
     }
@@ -612,70 +590,54 @@ public class CInterface {
     public static void send_message_transaction(final IsolateThread thread, int producerId, final CMessage cMessage,
         final CSendResult sendResult, VoidPointer executor, TransactionExecuteFunctionPointer execute) {
         Admin instance = instances.get(producerId);
-        CTypeConversion.CCharPointerHolder pin = null;
-        try {
-            if (instance instanceof TransactionProducer) {
-                try {
-                    Message message = message_transformer(cMessage);
-                    GraalTransactionExecutor transactionExecutor = new GraalTransactionExecutor();
-                    transactionExecutor.opaque = executor;
-                    transactionExecutor.transactionExecute = execute;
-                    SendResult result = ((TransactionProducer) instance).send(message, transactionExecutor, null);
-                    sendResult.setErrorCode(0);
-                    pin = CTypeConversion.toCString(result.getMessageId());
-                    int len = Math.min(ONS_SEND_RESULT_MSG_ID_LEN, result.getMessageId().length());
-                    memmove(sendResult.getMessageId(), pin.get(), WordFactory.unsigned(len));
-                } catch (Exception e) {
-                    sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
-                    pin = CTypeConversion.toCString(e.getMessage());
-                    memmove(sendResult.getError(), pin.get(),
-                        WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
-                }
-            } else {
-                sendResult.setErrorCode(ErrorCode.BAD_PRODUCER_INDEX.getCode());
-                sendResult.setError(CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc()).get());
-                pin = CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc());
-                int len = Math.min(ONS_SEND_RESULT_MSG_ID_LEN, ErrorCode.BAD_PRODUCER_INDEX.getDesc().length());
-                memmove(sendResult.getError(), pin.get(), WordFactory.unsigned(len));
+
+        if (instance instanceof TransactionProducer) {
+            try {
+                Message message = message_transformer(cMessage);
+                GraalTransactionExecutor transactionExecutor = new GraalTransactionExecutor();
+                transactionExecutor.opaque = executor;
+                transactionExecutor.transactionExecute = execute;
+                SendResult result = ((TransactionProducer) instance).send(message, transactionExecutor, null);
+                sendResult.setErrorCode(0);
+                int len = Math.min(ONS_SEND_RESULT_MSG_ID_LEN, result.getMessageId().length());
+                CTypeConversion.toCString(result.getMessageId(), sendResult.getMessageId(), WordFactory.unsigned(len));
+            } catch (Exception e) {
+                sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
+                CTypeConversion.toCString(e.getMessage(), sendResult.getError(),
+                    WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
             }
-        } finally {
-            if (null != pin) {
-                pin.close();
-            }
+        } else {
+            sendResult.setErrorCode(ErrorCode.BAD_PRODUCER_INDEX.getCode());
+            sendResult.setError(CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc()).get());
+            int len = Math.min(ONS_SEND_RESULT_MSG_ID_LEN, ErrorCode.BAD_PRODUCER_INDEX.getDesc().length());
+            CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc(), sendResult.getError(), WordFactory.unsigned(len));
         }
+
     }
 
     @CEntryPoint(name = "send_order_message")
     public static void send_order_message(IsolateThread thread, int producerId, CMessage cMsg, CSendResult sendResult,
         CCharPointer shardingKey) {
         Admin instance = instances.get(producerId);
-        CTypeConversion.CCharPointerHolder pin = null;
-        try {
-            if (instance instanceof OrderProducer) {
-                Message msg = message_transformer(cMsg);
-                try {
-                    SendResult result = ((OrderProducer) instance).send(msg, CTypeConversion.toJavaString(shardingKey));
-                    sendResult.setErrorCode(0);
-                    pin = CTypeConversion.toCString(result.getMessageId());
-                    memmove(sendResult.getMessageId(), pin.get(),
-                        WordFactory.unsigned(Math.min(ONS_SEND_RESULT_MSG_ID_LEN, result.getMessageId().length())));
-                } catch (ONSClientException e) {
-                    sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
-                    pin = CTypeConversion.toCString(e.getMessage());
-                    memmove(sendResult.getError(), pin.get(),
-                        WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
-                }
-            } else {
-                sendResult.setErrorCode(ErrorCode.BAD_PRODUCER_INDEX.getCode());
-                int length = Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, ErrorCode.BAD_PRODUCER_INDEX.getDesc().length());
-                pin = CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc());
-                memmove(sendResult.getError(), pin.get(), WordFactory.unsigned(length));
+
+        if (instance instanceof OrderProducer) {
+            Message msg = message_transformer(cMsg);
+            try {
+                SendResult result = ((OrderProducer) instance).send(msg, CTypeConversion.toJavaString(shardingKey));
+                sendResult.setErrorCode(0);
+                CTypeConversion.toCString(result.getMessageId(), sendResult.getMessageId(),
+                    WordFactory.unsigned(Math.min(ONS_SEND_RESULT_MSG_ID_LEN, result.getMessageId().length())));
+            } catch (ONSClientException e) {
+                sendResult.setErrorCode(ErrorCode.SEND_MESSAGE_FAILURE.getCode());
+                CTypeConversion.toCString(e.getMessage(), sendResult.getError(),
+                    WordFactory.unsigned(Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, e.getMessage().length())));
             }
-        } finally {
-            if (null != pin) {
-                pin.close();
-            }
+        } else {
+            sendResult.setErrorCode(ErrorCode.BAD_PRODUCER_INDEX.getCode());
+            int length = Math.min(ONS_SEND_RESULT_ERR_MSG_LEN, ErrorCode.BAD_PRODUCER_INDEX.getDesc().length());
+            CTypeConversion.toCString(ErrorCode.BAD_PRODUCER_INDEX.getDesc(), sendResult.getError(), WordFactory.unsigned(length));
         }
+
     }
 
     private static Message message_transformer(CMessage cMsg) {
